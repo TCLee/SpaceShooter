@@ -4,9 +4,10 @@ using System.Collections;
 public class GameController : MonoBehaviour 
 {
 	/// <summary>
-	/// The asteroid prefab object that will be spawned in.
+	/// The list of hazards in the game that will be selected randomly to annoy
+	/// the Player.
 	/// </summary>
-	public GameObject hazard;
+	public GameObject[] hazards;
 
 	/// <summary>
 	/// The x, y and z values to spawn the asteroid. y value will be 0.0f, since
@@ -113,13 +114,13 @@ public class GameController : MonoBehaviour
 
 	IEnumerator SpawnWaves()
 	{
-		// Give Player some time before we start spawning the asteroid waves.
+		// Give Player some time before we start spawning the waves.
 		yield return new WaitForSeconds(startWait);
 
-		// Keep spawning asteroids while Player is still alive and kicking.
+		// Keep spawning hazards while Player is still alive and kicking.
 		while (true) 
 		{
-			StartCoroutine( StartAsteroidWave() );
+			StartCoroutine( StartWave() );
 
 			// Wait for a while before starting the next wave.
 			yield return new WaitForSeconds(waveWait);
@@ -134,23 +135,25 @@ public class GameController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Starts spawing the wave of asteroids.
+	/// Starts spawing the wave of hazards.
 	/// </summary>
-	IEnumerator StartAsteroidWave()
+	IEnumerator StartWave()
 	{
-		// Number of asteroids to spawn is set in the Unity inspector panel.
+		// Number of hazards to spawn is set in the Unity inspector panel.
 		for (int count = 0; count < hazardCount; count++) 
 		{
-			SpawnAsteroid();
+			SpawnHazard();
 			yield return new WaitForSeconds(spawnWait);
 		}
 	}
 
 	/// <summary>
-	/// Spawns an asteroid object at a random x-axis position.
+	/// Spawns a random hazard object (asteroids or enemy ships) at a 
+	/// random x-axis position.
 	/// </summary>
-	void SpawnAsteroid()
+	void SpawnHazard()
 	{
+		GameObject hazard = hazards[ Random.Range(0, hazards.Length) ];
 		Vector3 spawnPosition = spawnValues;
 		spawnPosition.x = Random.Range(-spawnValues.x, spawnValues.x); 
 		Instantiate(hazard, spawnPosition, Quaternion.identity);

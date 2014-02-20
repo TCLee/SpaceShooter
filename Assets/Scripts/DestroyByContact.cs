@@ -1,22 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Destroy the game objects when they collide into one another.
+/// Example: Player ramming into an asteroid. Player's laser bolt shooting down an 
+/// enemy ship.
+/// </summary>
 public class DestroyByContact : MonoBehaviour 
 {
 	/// <summary>
-	/// The explosion visual effect to be displayed when an asteroid is 
-	/// destroyed by a laser bolt.
+	/// The explosion visual effect to be displayed when the game objects collide.
+	/// This is optional. Not all game objects need an explosion visual effect.
 	/// </summary>
 	public GameObject explosion;
 
 	/// <summary>
-	/// The explosion visual effect for the Player object when it rams 
-	/// into an asteroid.
+	/// The explosion visual effect for the Player object when it collides 
+	/// into an enemy.
 	/// </summary>
 	public GameObject playerExplosion;
 
 	/// <summary>
-	/// The number of points the Player will score when the asteroid is destroyed.
+	/// The number of points the Player will score when the enemy is destroyed.
 	/// </summary>
 	public int scoreValue;
 
@@ -28,6 +33,7 @@ public class DestroyByContact : MonoBehaviour
 
 	void Start()
 	{
+		// Attempt to find the first and only Game Controller object in the scene.
 		GameObject gameObject = GameObject.FindWithTag("GameController");
 
 		if (gameObject) 
@@ -43,11 +49,23 @@ public class DestroyByContact : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		// Ignore the Boundary object. Otherwise, the asteroids will be
+		// Ignore the Boundary object. Otherwise, the hazards will be
 		// destroyed as soon as the game starts.
-		if (other.tag == "Boundary") { return; }
+		// Ignore "Enemy" tags. When the enemy spaceship fires a laser bolt, 
+		// the laser bolt will be spawned near the enemy spaceship and this will
+		// blow up the enemy spaceship.
+		if (other.tag == "Boundary" || other.tag == "Enemy") 
+		{ 
+			return; 
+		}
 
-		// Player's spaceship rams onto the asteroid.
+		// Create the optional explosion visual effect.
+		if (explosion) 
+		{
+			Instantiate(explosion, transform.position, transform.rotation);
+		}
+
+		// Player's spaceship rams onto the asteroid or enemy spaceship.
 		if (other.tag == "Player") 
 		{
 			// Create an explosion VFX for the Player's spaceship collision.
@@ -57,17 +75,11 @@ public class DestroyByContact : MonoBehaviour
 			gameController.GameOver();
 		}
 
-		// Create the explosion visual effect at the asteroid's location.
-		Instantiate(explosion, transform.position, transform.rotation);
-
-		// Destroy the laser bolt that hit the asteroid.
-		Destroy(other.gameObject);
-
-		// Destroy the asteroid too.
-		// This script is attached to the asteroid object.
-		Destroy(gameObject);
-
-		// Add to Player' total score when asteroid is successfully shot down.
+		// Add to Player' total score when enemy or asteroid is successfully shot down.
 		gameController.AddScore(scoreValue);
+
+		// Destroy both the game objects that collided into one another.
+		Destroy(other.gameObject);
+		Destroy(gameObject);
 	}
 }

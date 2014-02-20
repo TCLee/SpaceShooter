@@ -10,6 +10,9 @@ public class Boundary
 	public float xMin, xMax, zMin, zMax;
 }
 
+/// <summary>
+/// Controller for the Player's spaceship.
+/// </summary>
 public class PlayerController : MonoBehaviour 
 {
 	/// <summary>

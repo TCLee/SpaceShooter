@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Controller for the gameplay.
+/// </summary>
 public class GameController : MonoBehaviour 
 {
 	/// <summary>

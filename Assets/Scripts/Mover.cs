@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Moves a game object that this script is attached to.
+/// </summary>
 public class Mover : MonoBehaviour 
 {
 	/// <summary>
-	/// The speed of the laser bolt.
+	/// The speed of the game object. Use negative values to invert the direction.
 	/// </summary>
 	public float speed;
 

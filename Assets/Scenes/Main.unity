@@ -3999,8 +3999,8 @@ MonoBehaviour:
   - {fileID: 100002, guid: f8942eaa1cae4468cbe36082ae8209d0, type: 2}
   - {fileID: 100002, guid: 8af5ed6772ae44e15b2a4303573ea367, type: 2}
   spawnValues: {x: 6, y: 0, z: 16}
-  hazardCount: 10
-  spawnWait: .5
+  hazardCount: 8
+  spawnWait: .75
   startWait: 1
   waveWait: 4
   restartText: {fileID: 488874678}

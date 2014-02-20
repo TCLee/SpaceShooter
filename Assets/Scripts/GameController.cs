@@ -121,33 +121,21 @@ public class GameController : MonoBehaviour
 		yield return new WaitForSeconds(startWait);
 
 		// Keep spawning hazards while Player is still alive and kicking.
-		while (true) 
+		while (!IsGameOver) 
 		{
-			StartCoroutine( StartWave() );
+			// Spawn the given number of hazards per wave.
+			for (int i = 0; i < hazardCount; i++) 
+			{
+				SpawnHazard();
+				yield return new WaitForSeconds(spawnWait);
+			}
 
 			// Wait for a while before starting the next wave.
 			yield return new WaitForSeconds(waveWait);
-
-			// Player is dead. We should restart the game.
-			if (IsGameOver)
-			{
-				ShouldRestartGame = true;
-				break;
-			}
 		}
-	}
 
-	/// <summary>
-	/// Starts spawing the wave of hazards.
-	/// </summary>
-	IEnumerator StartWave()
-	{
-		// Number of hazards to spawn is set in the Unity inspector panel.
-		for (int count = 0; count < hazardCount; count++) 
-		{
-			SpawnHazard();
-			yield return new WaitForSeconds(spawnWait);
-		}
+		// Player is dead. We should restart the game.
+		ShouldRestartGame = true;
 	}
 
 	/// <summary>

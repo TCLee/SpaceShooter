@@ -276,7 +276,7 @@ MonoBehaviour:
     xMax: 6
     zMin: -4
     zMax: 8
-  tilt: 4
+  tilt: 5
   laserBolt: {fileID: 100002, guid: 5bdc086b54f79408eb96abd96116b25c, type: 2}
   shotSpawn: {fileID: 400004}
   fireRate: .25
